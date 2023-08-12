@@ -8,7 +8,7 @@ interface Alertprops {
 
 const Success: React.FC<Alertprops> = ({ message }) => {
     return (
-        <div className="absolute w-1/4 flex align-middle left-1/4  bg-white p-5 border-green-500 border-2 rounded">
+        <div className="absolute w-1/4 flex align-middle left-1/4 p-5 border-green-500 border-2 rounded top-1">
             <PiSealCheckFill size={30} fill='white' className="mx-3" />
             <p className="text-2xl">{message}</p>
         </div>
