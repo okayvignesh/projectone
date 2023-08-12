@@ -50,7 +50,7 @@ export default function Login() {
                 success ?
                     <p className="text-6xl h-screen items-center justify-center flex sm:text-center sm:text-xl"> Welcome Onboard <span className="text-green-400 bold">&nbsp;{data.username}</span> 🥳</p>
                     :
-                    <div className="container my-10">
+                    <div className="container my-10 mx-auto">
                         <h1 className="text-4xl">Hello User 👋</h1>
                         <div className="text-2xl my-5">Lets Login Now!! 🔏</div>
                         <form onSubmit={handleSubmit} >
