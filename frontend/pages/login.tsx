@@ -3,7 +3,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Loading from "@/components/Loading";
-import { useUserContext } from "@/context/Context";
 
 
 export default function Login() {
@@ -15,7 +14,6 @@ export default function Login() {
     const [success, setSuccess] = useState(false)
     const [error, seterror] = useState({ status: false, message: '' })
     const [loading, setLoading] = useState(false)
-    const { setUser } = useUserContext()
 
 
     async function handleSubmit(event: FormEvent) {
@@ -25,7 +23,6 @@ export default function Login() {
             console.log(response)
             if (response.status === 200) {
                 setSuccess(true)
-                setUser(response.data.userId)
                 seterror({ status: false, message: '' })
                 localStorage.setItem("token", response.data.userId);
                 sessionStorage.setItem("token", response.data.userId);
