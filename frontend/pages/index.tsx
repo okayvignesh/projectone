@@ -58,9 +58,14 @@ export default function Home() {
             <div className="p-3 px-10 border mt-10">
               <div className="flex items-center justify-between">
                 <p className="text-2xl bold italic underline underline-offset-4">Books.</p>
-                <Link href={`/books/add`}>
-                  <button className="bg-white text-black px-2 py-1 ">+ Add</button>
-                </Link>
+                <div>
+                  <Link href={`/categories/add`} className="me-4">
+                    <button className="bg-white text-black px-2 py-1 ">+ Categories</button>
+                  </Link>
+                  <Link href={`/books/add`}>
+                    <button className="bg-white text-black px-2 py-1 ">+ Add</button>
+                  </Link>
+                </div>
               </div>
               <div className=" mt-5 flex flex-wrap max-h-72 min-h-56 overflow-y-scroll" >
 

@@ -10,11 +10,6 @@ const router = express.Router();
 dotenv.config();
 
 
-router.get('/name', async (req, res) => {
-    res.send('This is a router path Name 😩')
-})
-
-
 router.get('/', async (req, res) => {
     try {
         const users = await User.find({}).select('username userId');
