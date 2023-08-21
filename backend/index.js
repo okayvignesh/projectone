@@ -16,6 +16,8 @@ connectDb();
 
 
 app.use('/users', require('./routes/user.controller.js'))
+app.use('/category', require('./routes/category.controller.js'))
+app.use('/book', require('./routes/book.controller.js'))
 
 
 app.get('/', async (req, res) => {
