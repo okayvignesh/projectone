@@ -1,7 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const router = express.Router()
-const book = require('../models/book');
+const Book = require('../models/book');
 dotenv.config();
 
 
@@ -10,9 +10,9 @@ async function GenerateBook() {
 
     while (true) {
         const bookid = 'BK' + count;
-        const Id = await book.findOne({ bookid });
+        const existingId = await Book.findOne({ bookId: bookid });
 
-        if (!Id) {
+        if (!existingId) {
             return bookid;
         }
         count++;
@@ -21,23 +21,41 @@ async function GenerateBook() {
 
 
 
-router.post('/add-book', async (req, res) => {
+router.post('/add-book/:id', async (req, res) => {
     try {
         let success = false;
+        const userId = req.params.id
         const bookId = await GenerateBook();
-        console.log(bookId)
 
 
-        const books = new book({
+        const books = new Book({
             title: req.body.title,
             category: req.body.category,
             desc: req.body.desc,
             year: req.body.year,
-            bookId: bookId
+            author: req.body.author,
+            bookId: bookId,
+            userId: userId
         })
 
         const savedBook = await books.save();
         res.status(200).json({ success: true, books })
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+
+router.get('/get-all/:id', async (req, res) => {
+    try {
+        let success = false;
+        const userId = req.params.id
+        const books = await Book.find({ userId: userId })
+        if (!books || books.length == 0) {
+            res.status(404).json({ success: false, message: "Books not found" })
+        } else {
+            res.status(200).json({ success: true, books })
+        }
     } catch (error) {
         res.status(500).json(error)
     }
