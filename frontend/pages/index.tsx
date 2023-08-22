@@ -10,6 +10,9 @@ export default function Home() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [token, settoken] = useState('')
+  const [books, setBooks] = useState([])
+  const [error, setError] = useState({ status: false, message: '' })
+  const [success, setSuccess] = useState({ status: false, message: '' })
 
 
   useEffect(() => {
@@ -22,6 +25,19 @@ export default function Home() {
         setLoading(false)
       }, 1000);
     }
+    async function fetchbooks() {
+      try {
+        const books = await axios.get(`${process.env.NEXT_PUBLIC_URL}/book/get-all/${token}`)
+        if (books.status === 200) {
+          setBooks(books.data.books)
+        } else {
+          setError({ status: true, message: 'Error fetching books' })
+        }
+      } catch (error) {
+        setError({ status: true, message: 'Error fetching books' })
+      }
+    }
+    fetchbooks();
   }, []);
 
 
@@ -62,14 +78,24 @@ export default function Home() {
                   <Link href={`/categories/add`} className="me-4">
                     <button className="bg-white text-black px-2 py-1 ">+ Categories</button>
                   </Link>
-                  <Link href={`/books/add`}>
+                  <Link href={`/books/add/${token}`}>
                     <button className="bg-white text-black px-2 py-1 ">+ Add</button>
                   </Link>
                 </div>
               </div>
               <div className=" mt-5 flex flex-wrap max-h-72 min-h-56 overflow-y-scroll" >
-
-
+                {
+                  books && books.map((value: any, index: number) => {
+                    return (
+                      <div className="border p-3 m-2 w-[300px] h-[200px] rounded hover:bg-white hover:text-black duration-200 hover:rounded-none relative" key={index}>
+                        <p className="text-2xl">{value.title}</p>
+                        <p>{value.author}</p>
+                        <p className="mt-5">{value.desc.slice(0, 20)}</p>
+                        <p className="absolute top-4 right-4">{value.year}</p>
+                      </div>
+                    )
+                  })
+                }
               </div>
             </div>
           </div>
