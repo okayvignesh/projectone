@@ -87,13 +87,13 @@ function add() {
                         <p className="my-2 underline underline-offset-4">Your categories: </p>
                         <div className="flex border  w-3/4 p-2 flex-wrap">
                             {
-                                category && category.map((value: any, index) => {
+                                category && category.length != 0 ? category.map((value: any, index) => {
                                     return (
                                         <div className="border p-1 px-2 rounded cursor-pointer hover:bg-white hover:text-black m-2" key={index}>
                                             {value.category}
                                         </div>
                                     )
-                                })
+                                }) : <p>Nothing here 🌬️ </p>
                             }
                         </div>
                         <form onSubmit={handleSubmit} className="mt-10">

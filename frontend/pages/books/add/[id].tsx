@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/router"
-import Loading from '../../components/Loading'
+import Loading from '../../../components/Loading'
 import Link from "next/link";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import axios from "axios";
@@ -14,7 +14,8 @@ function add() {
         title: '',
         desc: '',
         year: '',
-        category: ''
+        category: '',
+        author: ''
     })
     const [error, setError] = useState({ status: false, message: '' })
     const [success, setSuccess] = useState({ status: false, message: '' })
@@ -49,14 +50,22 @@ function add() {
         setState({ ...state, [event.target.name]: event.target.value })
     }
 
+
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
         try {
             setLoading(true)
-            const books = await axios.post(`${process.env.NEXT_PUBLIC_URL}/book/add-book`, state)
+            const books = await axios.post(`${process.env.NEXT_PUBLIC_URL}/book/add-book/${token}`, state)
             if (books.status === 200) {
                 setSuccess({ status: true, message: 'Book has been Created!' })
+                setState({
+                    title: '',
+                    desc: '',
+                    year: '',
+                    category: '',
+                    author: ''
+                })
             } else {
                 setError({ status: true, message: 'Error creating book' })
             }
@@ -71,8 +80,6 @@ function add() {
     }
 
 
-
-
     return (
         <>
             {
@@ -82,7 +89,7 @@ function add() {
                         <Link href='/'>
                             <p className="text-4xl my-10 italic flex items-center">
                                 <BsFillArrowLeftCircleFill fill='white' size={30} className="mx-4" />
-                                Add Categories.
+                                Add Books.
                             </p>
                         </Link>
                         <form onSubmit={handleSubmit}>
@@ -110,6 +117,10 @@ function add() {
                             <div className="flex w-1/2 my-3">
                                 <label className="w-1/4">Year:</label>
                                 <input type="number" className="bg-transparent border rounded p-1 mx-5 w-full" name="year" value={state.year} onChange={handleChange} required />
+                            </div>
+                            <div className="flex w-1/2 my-3">
+                                <label className="w-1/4">Author:</label>
+                                <input type="text" className="bg-transparent border rounded p-1 mx-5 w-full" name="author" value={state.author} onChange={handleChange} required />
                             </div>
                             <button className="bg-white text-black p-2 mt-5" type="submit">Submit</button>
                         </form>
